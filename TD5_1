@@ -1,0 +1,94 @@
+### EXERCICE 1
+
+### Question 1 : Create an empty working directory called “td4”
+mkdir td4
+cd td4
+
+### Question 2 : Initialize a Git repository in it
+git init
+
+### Question 3 : Install the Linux python3-pip package using your Linux package manager
+sudo apt-get install python3-pip
+
+### Question 4 : Install the VirtualEnv Python package using pip3
+pip3 install virtualenv
+
+### Question 5 : Create a Python virtual environment called “.env”
+python3 -m virtualenv .env
+
+### Question 6 : Activate your virtual environment.
+source .env/bin/activate
+
+### Question 7 : List the Python packages installed in your virtual environment.
+pip list
+
+### Question 8 : Does Git want you to commit something ?
+git status
+
+### Question 9 : Create a .gitignore file to tell Git which files should be untracked
+touch .gitignore
+.env/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+### Question 10 : Does Git want you to commit something ?
+git status
+
+### Question 11 : Do your first commit and check that Git is happy now
+git add .
+git commit -m "Initial commit"
+git status
+
+
+
+### EXERCICE 2
+
+### Question 1 : Install the Python package Requests using pip
+pip install requests
+
+### Question 2 : Create a Python script that returns the list of all place ids in Derbyshire
+touch get_place_ids.py
+
+import requests
+
+def get_place_ids():
+    url = "https://api.example.com/county/derbyshire"  # Replace with the actual API URL
+    response = requests.get(url)
+
+    if response.status_code == 200:
+        data = response.json()
+        place_ids = [place["id"] for place in data["places"]]
+        return place_ids
+    else:
+        print("Error: Unable to fetch data from the API")
+        return []
+
+if __name__ == "__main__":
+    place_ids = get_place_ids()
+    print(place_ids)
+
+
+### Question 3 : Commit your changes in Git
+git add get_place_ids.py
+git commit -m "Add script to fetch place ids in Derbyshire"
+
+
+### EXERCICE 3
+
+
+### Question 2 :
+### Question 3 :
+### Question 4 :
+### Question 5 :
+### Question 6 :
+
+### EXERCICE 4
+
+### Question 1 :
+### Question 2 :
+### Question 3 : 
+### Question 4 :
+### Question 5 :
+### Question 6 : 
