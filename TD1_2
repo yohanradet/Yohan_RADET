@@ -1,0 +1,217 @@
+TD1_2/Yohan_RADET
+
+ ##### Exercice 1 : Access general computer information
+
+ ##### Question 1: Put system up to date
+
+ sudo apt-get update && sudo apt-get upgrade
+
+ ##### Question 2 : Display
+ — Linux version
+ — Current processes and memory usage associated
+ — Display it in a more pleasant way ("more readable for humans")
+ — Number of processors
+ — L1, L2 and L3 cache size
+ — Disk space
+ — Monted devices
+ — Connected usb devices
+ — Hostname
+
+ uname -a && top && lscpu && free -m && df -h && mount && lsusb && hostname
+
+ ##### Exercice 2 : Shell - Variables and scripts scope
+
+ ###### Question 1 : Create a variable x and assign it the short text piri pimpin
+ x="piri pimpin"
+
+ ###### Question 2 : Display the value of this variable
+ echo $x
+
+ ###### Question 3 : Add to this value the following text piri pimpon
+ It should contain the following : piri pimpim piri pimpon
+ x+=" piri pimpon"
+ echo $x
+
+ ###### Question 4: Create a folder named my_programs, then enter into that folder
+ mkdir my_programs
+ cd my_programs
+
+ ###### Question 5: Create a script named pilou that displays pilou pilou
+ echo "pilou pilou"
+
+ ###### Question 6: Run this script
+ ./pilou
+
+ ###### Question 7: Make this script executable
+ chmod +x pilou
+
+ ###### Question 8: Run the script by writting its name only
+ pilou
+
+ ###### Question 9: Programs called from the terminal are usually found thanks to a variable
+ named PATH
+ echo $PATH
+
+ ###### Question 10: Add the path of your current location to the global variable PATH
+ export PATH=$PATH:$(pwd)
+
+ ###### Question 11: When you are sure of the result, export it
+
+ ###### Question 12: Go to your home directory
+ cd ~
+
+ ###### Question 13: Run your script by writting its name only
+ pilou
+
+ ###### Question 14: Change the value of the PATH in the .profile file in order to make it
+ permanent
+ export PATH=$PATH:/path/to/my_programs
+
+ ###### Question 15: Create a new shell and run your script using its name only
+ source ~/.profile
+
+ ##### Exercice 3
+
+ ###### Question 1: Create a script say_hello.sh
+ #!/bin/bash
+ date +"%Y-%m-%d %H:%M:%S Hello" >> hellos.txt
+
+ ###### Question 2: Make the script executable
+ chmod +x say_hello.sh
+
+ ###### Question 3: Use crontab to schedule the running of the script every minute
+ crontab -e
+
+ #####Exercice 4 : Hashing
+
+ ###### Question 1: Create a folder named hash_checksum. Go into this folder
+ mkdir hash_checksum
+
+ ###### Question 2: Inside this folder, create two files named .sensible_addresses and .sensible_passwords
+ cd hash_checksum
+
+ ###### Question 3: Display the list of files of the folder
+ touch .sensible_addresses .sensible_passwords
+
+ ###### Question 4: Still inside the folder hash_checksum, create a script named gentle_script.sh.
+ nano gentle_script.sh
+
+ ###### Question 5: Run the script
+ bash gentle_script.sh
+
+ ###### Question 6: Compute the sha256sum of gentle_script. Store it into a file named
+ log_sha
+ sha256sum gentle_script.sh > log_sha
+
+ ###### Question 7: Now corrupt the file by adding a line of code that deletes any file starting
+ with : ".sensible"
+ nano gentle_script.sh
+
+ ###### Question 8: Compute again the sha256sum of gentle_script. Store it into the log_sha
+ file
+ sha256sum gentle_script.sh > log_sha
+
+ ###### Question 9: Run the script
+ bash gentle_script.sh
+
+ ###### Question 10: Display again the list of files of the folder
+ ls -a
+
+ ###### Question 11: Display the log_sha content : are the hashes any different ?
+ cat log_sha
+
+ #####Exercice 5 : Compressing
+
+ ###### Question 1: Install the QPDF free command-line program.
+ sudo apt-get install qpdf
+
+ ###### Question 2: Create a directory "compress", go into this directory
+ mkdir compress
+
+ ###### Question 3: Create a first file "hello" whose content is "Hello"
+ cd compress
+
+ ###### Question 4: Compute the deflate compression (level 1) of this file. Store the compressed file size into a file log_compress
+ echo "Hello" > hello
+
+ ###### Question 5: Create a second file "hello_multiple" whose content is 1000 lines of "Hello"
+ zlib-flate -1 < hello | wc -c > log_compress
+
+ ###### Question 6: Compute the deflate compression (level 1) of this file. Store the compressed file size into a file log_compress
+ yes "Hello" | head -n 1000 > hello_multiple
+
+ ###### Question 7: Create a third file "hello_mulitple_i" whose content is 1000 lines of "Hello
+ i" (i varying from 1 to 100)
+ zlib-flate -1 < hello_multiple | wc -c >> log_compress 
+
+ ###### Question 8: Compute the deflate compression (level 1) of this third file. Store the
+ compressed file size into log_compress
+ for i in {1..100}; do echo "Hello $i" >> hello_multiple_i; done
+
+ ###### Question 9: Display the content of log_compress
+ zlib-flate -1 < hello_multiple_i | wc -c >> log_compress
+
+ ###### Question 10: Compute the compression ratio of each file, also display it as a simple
+ fraction (e.g. 12.6 => 10 :1)
+ cat log_compress | awk '{print $1}' | paste -sd " " - | awk '{ for(i=2;i<=NF;i++) { printf "%.2f:1\n", $1/$i } }'
+
+ ###### Question 11: Analyse the results
+
+ ##### Exercice 6 : ACLs : Access Control Lists
+
+ ###### Question 1: Create users
+ sudo useradd -m -s /bin/bash client_1
+ sudo passwd client_1
+ # Enter passwd-client_1 as the password when prompted
+
+ sudo useradd -m -s /bin/bash contributor_1
+ sudo passwd contributor_1
+ # Enter passwd-contributor_1 as the password when prompted
+
+ sudo useradd -m -s /bin/bash contributor_2
+ sudo passwd contributor_2
+ # Enter passwd-contributor_2 as the password when prompted
+
+ ###### Question 2: Create groups
+ sudo groupadd clients
+ sudo groupadd contributors
+
+ ###### Question 3: Add users to their respective group
+ sudo usermod -a -G clients client_1
+ sudo usermod -a -G contributors contributor_1
+ sudo usermod -a -G contributors contributor_2
+
+
+ ###### Question 4: Check the users and groups have been successfully created
+ getent passwd | grep client_1
+ getent passwd | grep contributor_1
+ getent passwd | grep contributor_2
+
+ getent group | grep clients
+ getent group | grep contributors
+
+ ###### Question 5: Create a folder lika_project and give it the following authorizations to
+ groups
+ mkdir lika_project
+ sudo chown root:clients lika_project
+ sudo chmod 750 lika_project
+ sudo chgrp contributors lika_project
+ sudo chmod g+rw lika_project
+
+
+ ###### Question 6: Also use the command ls -l and notice the change on lika_project folder
+ ls -l
+ #####The output : drwxr-x--- 2 root clients 4096 Mar  7 10:57 lika_project
+
+ ###### Question 7: Change user and become as a client, then try deleting the folder
+ su - client_1
+ rm -rf lika_project
+
+ ###### Question 8: Now change user and become as a contributor, then try deleting the
+ folder
+ su - contributor_1
+ rm -rf lika_project
+
+
+ ###### Question 9: Check who is the current user
+ whoami
