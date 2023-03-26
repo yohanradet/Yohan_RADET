@@ -1,0 +1,13 @@
+# TD2_3
+
+## Exercise 1: Extract data from a website
+
+### Exercise 1.2 : Curl and Grep
+curl -s https://opendomesday.org/api/1.0/county/Derbyshire/places/ | grep -oE '\"id\": [0-9]+' | grep -oE '[0-9]+'
+
+### Exercice 1.3 : Curl, Grep and For
+ids=$(curl -s https://opendomesday.org/api/1.0/county/Derbyshire/places/ | grep -oE '\"id\": [0-9]+' | grep -oE '[0-9]+')
+for id in $ids; do
+  curl -s https://opendomesday.org/api/1.0/place/$id/ | grep -oE '\"id\": [0-9]+|\"name\": \"[^\"]+\"' | sed 's/\"//g' | sed 's/name: /place: /'
+  curl -s https://opendomesday.org/api/1.0/place/$id/manors/ | grep -oE '\"id\": [0-9]+|\"name\": \"[^\"]+\"' | sed 's/\"//g' | sed 's/name: /manor: /'
+done
