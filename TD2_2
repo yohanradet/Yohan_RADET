@@ -1,0 +1,42 @@
+# TD2_2
+
+## Exercise 1: SSH
+
+### Question 3: Connect to the distant server via your terminal
+
+— Do chmod 400 your private key file. The connection won’t work otherwise
+chmod 400 TD2_2.pem
+
+— Use an SSH instruction to connect to your remote instance
+ssh -i TD2_2.pem admin@13.38.42.189
+
+— Exit to return to your local machine
+exit
+
+### Question 4: Create a script named connect.sh to automatically connect to the remote instance
+ssh -i TD2_2.pem admin@13.38.42.189
+chmod +x connect.sh
+
+### Question 5: Run the script to check it is working properly. Then exit to return to your local machine.
+./connect.sh
+exit
+
+### Question 6 :
+
+- Rename your private key to make it a hidden file.
+mv TD2_2.pem .TD2_2.pem
+
+- Propagate the changes to your script. Run the script.
+ssh -i .TD2_2.pem admin@13.38.42.189
+
+## Exercise 2: SCP
+
+### Question 1-2-3: 
+scp -i TD2_2.pem test_to_remote_instance.txt admin@13.38.42.189:~
+scp -i TD2_2.pem admin@13.38.42.189:~/test_from_remote_instance.txt .
+
+
+### Question 4:
+scp -i TD2_2.pem path/to/local/file admin@13.38.42.189:~
+chmod +x scp_to_remote_instance.sh
+scp -i TD2_2.pem admin@remote_host
